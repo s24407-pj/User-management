@@ -1,4 +1,3 @@
-/*
 package com.amigoscode.customer;
 
 import org.springframework.stereotype.Repository;
@@ -6,17 +5,16 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Repository("list")
 public class CustomerListDataAccessService implements CustomerDao {
     @Override
-    public void updateCustomer(Integer customerId,Customer customer) {
+    public void updateCustomer(Long customerId,Customer customer) {
 
     }
 
     @Override
-    public boolean existsPersonWithId(Integer id) {
+    public boolean existsPersonWithId(Long id) {
         return customers.stream()
                 .anyMatch(c -> c.getId().equals(id));
     }
@@ -34,7 +32,7 @@ public class CustomerListDataAccessService implements CustomerDao {
     }
 
     @Override
-    public void deleteCustomer(Integer id) {
+    public void deleteCustomer(Long id) {
         customers.removeIf(customer -> customer.getId().equals(id));
     }
 
@@ -49,10 +47,9 @@ public class CustomerListDataAccessService implements CustomerDao {
     }
 
     @Override
-    public Optional<Customer> selectCustomerById(Integer id) {
+    public Optional<Customer> selectCustomerById(Long id) {
         return customers.stream()
                 .filter(c -> c.getId().equals(id))
                 .findFirst();
     }
 }
-*/

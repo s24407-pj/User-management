@@ -11,7 +11,7 @@ import java.util.List;
 public class CustomerService {
     private final CustomerDao customerDao;
 
-    public CustomerService(@Qualifier("jpa") CustomerDao customerDao) {
+    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
 
@@ -19,7 +19,7 @@ public class CustomerService {
         return customerDao.selectAllCustomers();
     }
 
-    public Customer getCustomer(Integer id) {
+    public Customer getCustomer(Long id) {
         return customerDao.selectCustomerById(id)
                 .orElseThrow(
                         () -> new ResourceNotFoundException("Customer with id [%s] not found".formatted(id)));
@@ -39,15 +39,15 @@ public class CustomerService {
         );
     }
 
-    public void deleteCustomerById(Integer customerId) {
+    public void deleteCustomerById(Long customerId) {
         customerDao.deleteCustomer(customerId);
     }
 
-    public void updateCustomer(Integer customerId, Customer customer) {
+    public void updateCustomer(Long customerId, Customer customer) {
         if (customerDao.existsPersonWithId(customerId)) {
-            customerDao.updateCustomer(customerId, customer);
+            customerDao.updateCustomer(customerId,customer);
         } else {
-            throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(customerId));
+            throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(customer.getId()));
         }
     }
 }
