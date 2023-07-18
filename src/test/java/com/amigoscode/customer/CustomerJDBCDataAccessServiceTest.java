@@ -1,6 +1,6 @@
 package com.amigoscode.customer;
 
-import com.amigoscode.AbstractTestContainersUnitTest;
+import com.amigoscode.AbstractTestContainers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
+class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
 
     private CustomerJDBCDataAccessService underTest;
     private final CustomerRowMapper customerRowMapper = new CustomerRowMapper();

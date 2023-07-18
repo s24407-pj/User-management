@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import javax.sql.DataSource;
 
 @Testcontainers
-public abstract class AbstractTestContainersUnitTest {
+public abstract class AbstractTestContainers {
 
     @BeforeAll
     static void beforeAll() {
