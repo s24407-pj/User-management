@@ -45,12 +45,11 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
                 INSERT INTO customer(name, email, age)
                 VALUES(?,?,?)
                 """;
-        int result = jdbcTemplate.update(
+        jdbcTemplate.update(
                 sql,
                 customer.getName(),
                 customer.getEmail(),
                 customer.getAge());
-        System.out.println("jdbcTemplate.update = " + result);
     }
 
     @Override
@@ -86,7 +85,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     }
 
     @Override
-    public void updateCustomer(Long customerId,Customer customer) {
+    public void updateCustomer(Long customerId, Customer customer) {
         var sql = """
                 UPDATE customer 
                 SET name = ? , email = ? , age = ? 
