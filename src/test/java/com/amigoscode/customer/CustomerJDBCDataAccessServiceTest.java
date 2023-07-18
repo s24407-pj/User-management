@@ -102,7 +102,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
                 .findFirst()
                 .orElseThrow();
 
-        assertThat(actual).satisfies(c ->{
+        assertThat(actual).satisfies(c -> {
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
             assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getAge()).isEqualTo(customer.getAge());
@@ -129,7 +129,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
     }
 
     @Test
-    void name() {
+    void existsCustomerWithEmailReturnsFalseWhenDoesNotExists() {
         //Given
         String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
 
@@ -220,11 +220,11 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
         );
 
         //When
-        underTest.updateCustomer(id,update);
+        underTest.updateCustomer(id, update);
 
         //Then
         var updated = underTest.selectCustomerById(id);
-        assertThat(updated).isPresent().hasValueSatisfying(c ->{
+        assertThat(updated).isPresent().hasValueSatisfying(c -> {
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
             assertThat(c.getName()).isNotEqualTo(customer.getName());
             assertThat(c.getAge()).isGreaterThan(customer.getAge());

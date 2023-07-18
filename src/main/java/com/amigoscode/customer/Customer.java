@@ -1,9 +1,6 @@
 package com.amigoscode.customer;
 
 import jakarta.persistence.*;
-import org.hibernate.type.descriptor.java.BigIntegerJavaType;
-
-import java.math.BigInteger;
 
 
 @Entity
@@ -44,7 +41,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Long id,String name, String email, Integer age) {
+    public Customer(Long id, String name, String email, Integer age) {
         this.id = id;
         this.name = name;
         this.email = email;

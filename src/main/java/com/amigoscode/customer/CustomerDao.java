@@ -15,5 +15,6 @@ public interface CustomerDao {
     boolean existsCustomerWithId(Long id);
 
     void deleteCustomer(Long customerId);
-    void updateCustomer(Long customerId,Customer customer);
+
+    void updateCustomer(Long customerId, Customer customer);
 }

@@ -43,7 +43,7 @@ public class CustomerRestController {
     public void updateCustomer(
             @PathVariable("customerId") Long customerId,
             @RequestBody Customer customer) {
-        customerService.updateCustomer(customerId,customer);
+        customerService.updateCustomer(customerId, customer);
     }
 
 }
