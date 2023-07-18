@@ -27,7 +27,7 @@ public class CustomerService {
     }
 
     public void addCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
-        if (customerDao.existsPersonWithEmail(customerRegistrationRequest.email())) {
+        if (customerDao.existsCustomerWithEmail(customerRegistrationRequest.email())) {
             throw new DuplicateResourceException("Customer with email already exists");
         }
         customerDao.insertCustomer(
@@ -44,7 +44,7 @@ public class CustomerService {
     }
 
     public void updateCustomer(Long customerId, Customer customer) {
-        if (customerDao.existsPersonWithId(customerId)) {
+        if (customerDao.existsCustomerWithId(customerId)) {
             customerDao.updateCustomer(customerId,customer);
         } else {
             throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(customer.getId()));

@@ -1,12 +1,10 @@
 package com.amigoscode.customer;
 
 import com.amigoscode.AbstractTestContainersUnitTest;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -113,7 +111,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
     }
 
     @Test
-    void existsPersonWithEmail() {
+    void existsCustomerWithEmail() {
         //Given
         String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
         Customer customer = new Customer(
@@ -124,20 +122,26 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
         underTest.insertCustomer(customer);
 
         //When
-        boolean exists = underTest.existsPersonWithEmail(email);
+        boolean exists = underTest.existsCustomerWithEmail(email);
 
         //Then
-        var actual = underTest.selectAllCustomers()
-                .stream()
-                .filter(c -> c.getEmail().equals(email))
-                .findFirst()
-                .orElseThrow();
-
-        assertThat(email).isEqualTo(actual.getEmail());
+        assertThat(exists).isTrue();
     }
 
     @Test
-    void existsPersonWithId() {
+    void name() {
+        //Given
+        String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+
+        //When
+        boolean exists = underTest.existsCustomerWithEmail(email);
+
+        //Then
+        assertThat(exists).isFalse();
+    }
+
+    @Test
+    void existsCustomerWithId() {
         //Given
         String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
         Customer customer = new Customer(
@@ -153,7 +157,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
                 .findFirst()
                 .orElseThrow();
         //When
-        boolean exists = underTest.existsPersonWithId(id);
+        boolean exists = underTest.existsCustomerWithId(id);
 
         //Then
         var actual = underTest.selectAllCustomers()
@@ -186,7 +190,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainersUnitTest {
         underTest.deleteCustomer(id);
 
         //Then
-        boolean isDeleted = !underTest.existsPersonWithId(id);
+        boolean isDeleted = !underTest.existsCustomerWithId(id);
 
         assertThat(isDeleted).isTrue();
     }
