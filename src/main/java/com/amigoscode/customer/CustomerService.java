@@ -50,7 +50,7 @@ public class CustomerService {
         if (customerDao.existsCustomerWithId(customerId)) {
             customerDao.updateCustomer(customerId, customer);
         } else {
-            throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(customer.getId()));
+            throw new ResourceNotFoundException("Customer with id [%s] not found".formatted(customerId));
         }
     }
 }
