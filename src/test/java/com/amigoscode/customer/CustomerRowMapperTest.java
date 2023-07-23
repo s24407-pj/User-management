@@ -27,7 +27,7 @@ class CustomerRowMapperTest {
 
         //Then
         Customer expected = new Customer(1L, "Alex", "alex@wp.pl", 20);
-        assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(actual).isEqualTo(expected);
 
     }
 }
