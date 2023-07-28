@@ -4,7 +4,7 @@ server:
     include-message: always
 spring:
   datasource:
-    username: admin
+    username: michalf
     password: password
     url: jdbc:postgresql://localhost:5332/customer
   jpa:
