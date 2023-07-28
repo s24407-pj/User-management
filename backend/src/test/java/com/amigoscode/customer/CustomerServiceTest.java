@@ -14,7 +14,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
@@ -127,19 +126,19 @@ class CustomerServiceTest {
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("customer with id [%s] not found".formatted(id));
         //Then
-        verify(customerDaoMock,never()).deleteCustomer(any());
+        verify(customerDaoMock, never()).deleteCustomer(any());
     }
 
     @Test
     void updateCustomer() {
         //Given
-        long id =1;
-        Customer customer = new Customer("Alex","alex@mail.com",20);
+        long id = 1;
+        Customer customer = new Customer("Alex", "alex@mail.com", 20);
         when(customerDaoMock.existsCustomerWithId(id)).thenReturn(true);
         //When
-        underTest.updateCustomer(id,customer);
+        underTest.updateCustomer(id, customer);
         //Then
-        verify(customerDaoMock).updateCustomer(id,customer);
+        verify(customerDaoMock).updateCustomer(id, customer);
     }
 
     @Test
@@ -147,13 +146,13 @@ class CustomerServiceTest {
         //Given
         long id = 1;
         when(customerDaoMock.existsCustomerWithId(id)).thenReturn(false);
-        Customer customer = new Customer("Alex","alex@mail.com",20);
+        Customer customer = new Customer("Alex", "alex@mail.com", 20);
         //When
-        assertThatThrownBy(() -> underTest.updateCustomer(id,customer))
+        assertThatThrownBy(() -> underTest.updateCustomer(id, customer))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("Customer with id [%s] not found".formatted(id));
 
         //Then
-        verify(customerDaoMock,never()).updateCustomer(id,customer);
+        verify(customerDaoMock, never()).updateCustomer(id, customer);
     }
 }

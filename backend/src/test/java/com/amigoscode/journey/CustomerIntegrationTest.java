@@ -115,7 +115,7 @@ public class CustomerIntegrationTest {
                 })
                 .returnResult()
                 .getResponseBody();
-        
+
         assertThat(allCustomers).isNotEmpty();
 
         long id = allCustomers.stream()
@@ -182,10 +182,10 @@ public class CustomerIntegrationTest {
         Customer update = new Customer(
                 faker.name().fullName(),
                 request.email(),
-                request.age()+1
+                request.age() + 1
         );
         webTestClient.put()
-                .uri(CUSTOMER_URI+ "/{id}", id)
+                .uri(CUSTOMER_URI + "/{id}", id)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(Mono.just(update), Customer.class)
