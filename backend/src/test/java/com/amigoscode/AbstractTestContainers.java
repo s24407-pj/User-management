@@ -32,6 +32,7 @@ public abstract class AbstractTestContainers {
                     .withDatabaseName("trainingproject-dao-unit-test")
                     .withUsername("michalf")
                     .withPassword("password");
+    
 
     @DynamicPropertySource
     private static void registerDataSourceProperties(DynamicPropertyRegistry registry) {
