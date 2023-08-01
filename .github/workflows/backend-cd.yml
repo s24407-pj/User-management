@@ -61,8 +61,7 @@ jobs:
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
 
-      - name: Post to a Slack channel
-        id: slack
+      - id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: 'CHANNEL_ID'
@@ -99,8 +98,8 @@ jobs:
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{steps.build-number.outputsBUILD_NUMBER}}"
           git push
 
-      - name: Post to a Slack channel
-        id: slack
+
+      - id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: 'CHANNEL_ID'
