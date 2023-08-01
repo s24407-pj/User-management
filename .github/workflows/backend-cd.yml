@@ -29,11 +29,10 @@ jobs:
         working-directory: ./backend
 
     steps:
-      - name: Post to a Slack channel
-        id: slack
+      - id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: 'CHANNEL_ID'
+          channel-id: 'C05LHBRHGRE'
           slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -61,10 +60,9 @@ jobs:
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
 
-      - id: slack
-        uses: slackapi/slack-github-action@v1.24.0
+      - uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: 'CHANNEL_ID'
+          channel-id: 'C05LHBRHGRE'
           update-ts: ${{ steps.slack.outputs.ts }}
           slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
@@ -98,11 +96,9 @@ jobs:
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{steps.build-number.outputsBUILD_NUMBER}}"
           git push
 
-
-      - id: slack
-        uses: slackapi/slack-github-action@v1.24.0
+      - uses: slackapi/slack-github-action@v1.24.0
         with:
-          channel-id: 'CHANNEL_ID'
+          channel-id: 'C05LHBRHGRE'
           update-ts: ${{ steps.slack.outputs.ts }}
           slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
