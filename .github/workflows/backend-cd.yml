@@ -29,6 +29,15 @@ jobs:
         working-directory: ./backend
 
     steps:
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'CHANNEL_ID'
+          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -52,6 +61,16 @@ jobs:
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
 
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'CHANNEL_ID'
+          update-ts: ${{ steps.slack.outputs.ts }}
+          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
       - name: Update Dockerrun.aws.json api image tag with new build number
         run: |
           echo "Dockerrun.aws.json before updating tag"
@@ -71,6 +90,7 @@ jobs:
           version_description: ${{github.SHA}}
           region: ${{ vars.EB_REGION }}
           deployment_package: Dockerrun.aws.json
+
       - name: Commit and push Dockerrun.aws.json
         run: |
           git config user.name github-actions
@@ -78,3 +98,13 @@ jobs:
           git add -A
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{steps.build-number.outputsBUILD_NUMBER}}"
           git push
+
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'CHANNEL_ID'
+          update-ts: ${{ steps.slack.outputs.ts }}
+          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
