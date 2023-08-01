@@ -60,6 +60,9 @@ jobs:
           echo "Dockerrun.aws.json after updating tag"
           cat ../Dockerrun.aws.json
 
+      - name: Print env variables
+        run: echo "region-${{ env.EB_REGION }}"
+
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
