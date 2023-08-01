@@ -60,9 +60,6 @@ jobs:
           echo "Dockerrun.aws.json after updating tag"
           cat ../Dockerrun.aws.json
 
-      - name: Print vars variable
-        run: echo "region-${{ vars.EB_REGION }}"
-
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -73,7 +70,7 @@ jobs:
           version_label: ${{steps.build-number.outputs.BUILD_NUMBER}}
           version_description: ${{github.SHA}}
           region: ${{ vars.EB_REGION }}
-          deployment_package: backend/Dockerrun.aws.json
+          deployment_package: Dockerrun.aws.json
       - name: Commit and push Dockerrun.aws.json
         run: |
           git config user.name github-actions
