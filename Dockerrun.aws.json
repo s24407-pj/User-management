@@ -16,7 +16,7 @@
       "environment": [
         {
           "name": "SPRING_DATASOURCE_URL",
-          "value": "jdbc:postgresql://awseb-e-figmqcvya8-stack-awsebrdsdatabase-ctith9dgbaub.cnbzqn6nyafz.eu-central-1.rds.amazonaws.com:5432/ebdb"
+          "value": "jdbc:postgresql://awseb-e-bymrzxi22f-stack-awsebrdsdatabase-mxj2aliyk7jh.cnbzqn6nyafz.eu-central-1.rds.amazonaws.com:5432/ebdb"
         }
       ]
     }
