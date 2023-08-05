@@ -1,5 +1,12 @@
-function App() {
-  return <h1>Hello React</h1>
+import {Button} from '@chakra-ui/react'
+import SidebarWithHeader from "./shared/SideBar.jsx";
+
+const App = () => {
+    return (
+        <SidebarWithHeader>
+            <Button colorScheme='blue'>Button</Button>
+        </SidebarWithHeader>
+    )
 }
 
-export default App
+export default App;
