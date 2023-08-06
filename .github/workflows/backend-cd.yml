@@ -32,6 +32,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Slack commit message and sha
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'C05LHBRHGRE'
+          update-ts: ${{ steps.slack.outputs.ts }}
+          slack-message: ":github: https://github.com/s24407-pj/Fullstack_course_by_AmigosCode${{github.sha}} - ${{github.event.head_commit.message}}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -49,11 +59,12 @@ jobs:
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
 
-      - id: slack
+      - name: Update slack message
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: 'C05LHBRHGRE'
-          slack-message: "GitHub build ${{steps.build-number.outputs.BUILD_NUMBER}} result: running"
+          slack-message: ":github: https://github.com/s24407-pj/Fullstack_course_by_AmigosCode${{github.sha}} - ${{github.event.head_commit.message}}\n
+          GitHub build ${{steps.build-number.outputs.BUILD_NUMBER}} result: running"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
@@ -92,6 +103,7 @@ jobs:
         with:
           channel-id: 'C05LHBRHGRE'
           update-ts: ${{ steps.slack.outputs.ts }}
-          slack-message: "GitHub build ${{steps.build-number.outputs.BUILD_NUMBER}} result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+          slack-message: ":github: https://github.com/s24407-pj/Fullstack_course_by_AmigosCode${{github.sha}} - ${{github.event.head_commit.message}}\n
+          GitHub build ${{steps.build-number.outputs.BUILD_NUMBER}} result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
