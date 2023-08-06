@@ -40,7 +40,7 @@ const SidebarContent = ({onClose, ...rest}) => {
             h="full"
             {...rest}>
             <Flex h="20" flexDirection={"column"} alignItems="center" mx="8" mb={75} mt={2} justifyContent="space-between">
-                <svg width="100%" height="100%" viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-4 mb-3 text-link dark:text-link-dark w-24 lg:w-28 self-center text-sm mr-0 flex origin-center transition-all ease-in-out"><circle cx="0" cy="0" r="2" fill="currentColor"></circle><g stroke="currentColor" stroke-width="1" fill="none"><ellipse rx="10" ry="4.5"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(60)"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(120)"></ellipse></g></svg>
+                <svg width="100%" height="100%" viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-4 mb-3 text-link dark:text-link-dark w-24 lg:w-28 self-center text-sm mr-0 flex origin-center transition-all ease-in-out"><circle cx="0" cy="0" r="2" fill="currentColor"></circle><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="10" ry="4.5"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(60)"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(120)"></ellipse></g></svg>
                 <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
                     Dashboard
                 </Text>
@@ -161,7 +161,7 @@ const MobileNav = ({onOpen, ...rest}) => {
     )
 }
 
-const SidebarWithHeader = () => {
+const SidebarWithHeader = ({children}) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
 
     return (
@@ -181,7 +181,7 @@ const SidebarWithHeader = () => {
             {/* mobilenav */}
             <MobileNav onOpen={onOpen}/>
             <Box ml={{base: 0, md: 60}} p="4">
-                {/* Content */}
+                {children}
             </Box>
         </Box>
     )
