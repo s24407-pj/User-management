@@ -41,7 +41,7 @@ class CustomerServiceTest {
         //Given
         long id = 1;
         Customer customer = new Customer(
-                id, "Alex", "alex@mail.com", 15
+                id, "Alex", "alex@mail.com", 15, Gender.FEMALE
         );
         when(customerDaoMock.selectCustomerById(id)).thenReturn(Optional.of(customer));
         //When
@@ -55,7 +55,7 @@ class CustomerServiceTest {
         //Given
         long id = 1;
         Customer customer = new Customer(
-                id, "Alex", "alex@mail.com", 15
+                id, "Alex", "alex@mail.com", 15, Gender.MALE
         );
         when(customerDaoMock.selectCustomerById(id)).thenReturn(Optional.empty());
         //When
@@ -71,7 +71,7 @@ class CustomerServiceTest {
         String email = "asdasd@dsad";
 
         when(customerDaoMock.existsCustomerWithEmail(email)).thenReturn(false);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 15);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 15,Gender.MALE);
 
         //When
         underTest.addCustomer(request);
@@ -95,7 +95,7 @@ class CustomerServiceTest {
         String email = "asdasd@dsad";
 
         when(customerDaoMock.existsCustomerWithEmail(email)).thenReturn(true);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 15);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 15,Gender.MALE);
 
         //When
         assertThatThrownBy(() -> underTest.addCustomer(request))
@@ -134,7 +134,7 @@ class CustomerServiceTest {
     void updateCustomer() {
         //Given
         long id =1;
-        Customer customer = new Customer("Alex","alex@mail.com",20);
+        Customer customer = new Customer("Alex","alex@mail.com",20,Gender.MALE);
         when(customerDaoMock.existsCustomerWithId(id)).thenReturn(true);
         //When
         underTest.updateCustomer(id,customer);
@@ -147,7 +147,7 @@ class CustomerServiceTest {
         //Given
         long id = 1;
         when(customerDaoMock.existsCustomerWithId(id)).thenReturn(false);
-        Customer customer = new Customer("Alex","alex@mail.com",20);
+        Customer customer = new Customer("Alex","alex@mail.com",20,Gender.MALE);
         //When
         assertThatThrownBy(() -> underTest.updateCustomer(id,customer))
                 .isInstanceOf(ResourceNotFoundException.class)

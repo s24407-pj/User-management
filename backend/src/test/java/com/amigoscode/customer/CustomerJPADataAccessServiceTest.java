@@ -33,7 +33,8 @@ class CustomerJPADataAccessServiceTest {
         Customer customer = new Customer(
                 "Michal",
                 "mail@mail.com",
-                20
+                20,
+                Gender.MALE
         );
         //When
         underTest.updateCustomer(id, customer);
@@ -77,7 +78,8 @@ class CustomerJPADataAccessServiceTest {
         Customer customer = new Customer(
                 "Michal",
                 "mail@mail.com",
-                20
+                20,
+                Gender.MALE
         );
 
         //When

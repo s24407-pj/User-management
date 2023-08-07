@@ -2,6 +2,7 @@ package com.amigoscode.journey;
 
 import com.amigoscode.customer.Customer;
 import com.amigoscode.customer.CustomerRegistrationRequest;
+import com.amigoscode.customer.Gender;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ public class CustomerIntegrationTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 faker.name().fullName(),
                 faker.pokemon().name() + UUID.randomUUID() + "@mail.com",
-                faker.number().numberBetween(18, 99)
+                faker.number().numberBetween(18, 99),
+                Gender.MALE
         );
         //send a post request
         webTestClient.post()
@@ -58,7 +60,8 @@ public class CustomerIntegrationTest {
         Customer expected = new Customer(
                 request.name(),
                 request.email(),
-                request.age()
+                request.age(),
+                request.gender()
         );
         assertThat(allCustomers)
                 .isNotEmpty()
@@ -92,7 +95,8 @@ public class CustomerIntegrationTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 faker.name().fullName(),
                 faker.pokemon().name() + UUID.randomUUID() + "@mail.com",
-                faker.number().numberBetween(18, 99)
+                faker.number().numberBetween(18, 99),
+                Gender.MALE
         );
         //send a post request
         webTestClient.post()
@@ -147,7 +151,8 @@ public class CustomerIntegrationTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 faker.name().fullName(),
                 faker.pokemon().name() + UUID.randomUUID() + "@mail.com",
-                faker.number().numberBetween(18, 99)
+                faker.number().numberBetween(18, 99),
+                Gender.MALE
         );
         //send a post request
         webTestClient.post()
@@ -182,7 +187,8 @@ public class CustomerIntegrationTest {
         Customer update = new Customer(
                 faker.name().fullName(),
                 request.email(),
-                request.age()+1
+                request.age()+1,
+                request.gender()
         );
         webTestClient.put()
                 .uri(CUSTOMER_URI+ "/{id}", id)
