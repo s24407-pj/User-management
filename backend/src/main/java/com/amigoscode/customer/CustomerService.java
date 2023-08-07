@@ -34,13 +34,14 @@ public class CustomerService {
                 new Customer(
                         customerRegistrationRequest.name(),
                         customerRegistrationRequest.email(),
-                        customerRegistrationRequest.age()
+                        customerRegistrationRequest.age(),
+                        customerRegistrationRequest.gender()
                 )
         );
     }
 
     public void deleteCustomerById(Long customerId) {
-        if(!customerDao.existsCustomerWithId(customerId)){
+        if (!customerDao.existsCustomerWithId(customerId)) {
             throw new ResourceNotFoundException("customer with id [%s] not found".formatted(customerId));
         }
         customerDao.deleteCustomer(customerId);
