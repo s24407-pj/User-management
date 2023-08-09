@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "trainingproject-api",
-      "image": "miwoj/trainingproject-api:06.08.2023.16.25.33",
+      "image": "miwoj/trainingproject-api:07.08.2023.21.37.36",
       "essential": true,
       "memory": 512,
       "portMappings": [
