@@ -19,6 +19,7 @@ import {
     VStack,
 } from '@chakra-ui/react'
 import {FiBell, FiChevronDown, FiCompass, FiHome, FiMenu, FiSettings, FiStar, FiTrendingUp,} from 'react-icons/fi'
+import ToggleTheme from "../ToggleTheme.jsx";
 
 const LinkItems = [
     {name: 'Home', icon: FiHome},
@@ -119,6 +120,7 @@ const MobileNav = ({onOpen, ...rest}) => {
             </Text>
 
             <HStack spacing={{base: '0', md: '6'}}>
+                <ToggleTheme/>
                 <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell/>}/>
                 <Flex alignItems={'center'}>
                     <Menu>

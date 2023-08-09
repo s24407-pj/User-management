@@ -3,7 +3,7 @@
 import {Avatar, Box, Center, Flex, Heading, Image, Stack, Tag, Text, useColorModeValue,} from '@chakra-ui/react'
 
 export default function CardWithImage({id, name, email, age, gender}) {
-    gender === "MALE" ? gender = "Men" : gender = "Woman"
+    gender === "MALE" ? gender = "Man" : gender = "Woman"
     return (
         <Center py={6}>
             <Box
@@ -26,7 +26,7 @@ export default function CardWithImage({id, name, email, age, gender}) {
                     <Avatar
                         size={'xl'}
                         src={
-                            `https://randomuser.me/api/portraits/med/${gender === "MALE" ? "men" : "women"}/${id}.jpg`
+                            `https://randomuser.me/api/portraits/med/${gender === "Man" ? "men" : "women"}/${id}.jpg`
                         }
                         css={{
                             border: '2px solid white',
@@ -41,7 +41,7 @@ export default function CardWithImage({id, name, email, age, gender}) {
                             {name}
                         </Heading>
                         <Text color={'gray.500'}>{email}</Text>
-                        <Text color={'gray.500'}>Age {age} | {gender === "MALE" ? "Man" : "Woman"}</Text>
+                        <Text color={'gray.500'}>Age {age} | {gender}</Text>
                     </Stack>
                 </Box>
             </Box>
