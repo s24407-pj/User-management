@@ -1,9 +1,10 @@
 'use client'
 
 import {Avatar, Box, Center, Flex, Heading, Image, Stack, Tag, Text, useColorModeValue,} from '@chakra-ui/react'
+import DeleteCustomerButton from "./DeleteCustomerButton.jsx";
 
 // eslint-disable-next-line react/prop-types
-export default function CardWithImage({id, name, email, age, gender, index}) {
+export default function CardWithImage({id, name, email, age, gender, index, fetchCustomers}) {
     gender === "MALE" ? gender = "Man" : gender = "Woman"
     return (
         <Center py={6}>
@@ -44,7 +45,9 @@ export default function CardWithImage({id, name, email, age, gender, index}) {
                         <Text color={'gray.500'}>{email}</Text>
                         <Text color={'gray.500'}>Age {age} | {gender}</Text>
                     </Stack>
+
                 </Box>
+                <DeleteCustomerButton id={id} name={name} fetchCustomers={fetchCustomers}/>
             </Box>
         </Center>
     )

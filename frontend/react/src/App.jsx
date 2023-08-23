@@ -16,10 +16,10 @@ const App = () => {
         getCustomers().then(res => {
             setCustomers(res.data)
         }).catch(err => {
-            setError(err.response.data.message);
-            errorNotification(
-                err.code,
-                err.response.data.message)
+                setError(err.response.data.message);
+                errorNotification(
+                    err.code,
+                    err.response.data.message)
             }
         ).finally(() => {
             setLoading(false)
@@ -43,7 +43,7 @@ const App = () => {
             </SidebarWithHeader>)
     }
 
-    if(err){
+    if (err) {
         return (
             <SidebarWithHeader>
                 <DrawerForm/>
@@ -70,7 +70,9 @@ const App = () => {
                     <WrapItem key={index}>
                         <CardWithImage
                             {...customer}
-                            index = {index}/>
+                            index={index}
+                            fetchCustomers={fetchCustomers}
+                        />
                     </WrapItem>
                 ))}
             </Wrap>
