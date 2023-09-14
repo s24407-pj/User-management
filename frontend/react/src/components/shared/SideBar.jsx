@@ -1,6 +1,7 @@
 import {
     Avatar,
-    Box, Button,
+    Box,
+    Button,
     CloseButton,
     Drawer,
     DrawerContent,
@@ -18,11 +19,9 @@ import {
     useDisclosure,
     VStack,
 } from '@chakra-ui/react'
-import {FiBell, FiChevronDown, FiHome, FiMenu, FiUserPlus,} from 'react-icons/fi'
+import {FiBell, FiChevronDown, FiHome, FiMenu,} from 'react-icons/fi'
 import ToggleTheme from "../ToggleTheme.jsx";
 import CreateCustomerDrawer from "../CreateCustomerDrawer.jsx";
-import {useState} from "react";
-import createCustomerDrawer from "../CreateCustomerDrawer.jsx";
 
 
 const SidebarContent = ({fetchCustomers, onClose, onOpen, ...rest}) => {
