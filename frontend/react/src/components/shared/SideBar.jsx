@@ -1,6 +1,6 @@
 import {
     Avatar,
-    Box,
+    Box, Button,
     CloseButton,
     Drawer,
     DrawerContent,
@@ -18,18 +18,16 @@ import {
     useDisclosure,
     VStack,
 } from '@chakra-ui/react'
-import {FiBell, FiChevronDown, FiCompass, FiHome, FiMenu, FiSettings, FiStar, FiTrendingUp,} from 'react-icons/fi'
+import {FiBell, FiChevronDown, FiHome, FiMenu, FiUserPlus,} from 'react-icons/fi'
 import ToggleTheme from "../ToggleTheme.jsx";
+import CreateCustomerDrawer from "../CreateCustomerDrawer.jsx";
+import {useState} from "react";
+import createCustomerDrawer from "../CreateCustomerDrawer.jsx";
 
-const LinkItems = [
-    {name: 'Home', icon: FiHome},
-    {name: 'Trending', icon: FiTrendingUp},
-    {name: 'Explore', icon: FiCompass},
-    {name: 'Favourites', icon: FiStar},
-    {name: 'Settings', icon: FiSettings},
-]
 
-const SidebarContent = ({onClose, ...rest}) => {
+const SidebarContent = ({fetchCustomers, onClose, onOpen, ...rest}) => {
+
+
     return (
         <Box
             transition="3s ease"
@@ -40,52 +38,45 @@ const SidebarContent = ({onClose, ...rest}) => {
             pos="fixed"
             h="full"
             {...rest}>
-            <Flex h="20" flexDirection={"column"} alignItems="center" mx="8" mb={75} mt={2} justifyContent="space-between">
-                <svg width="100%" height="100%" viewBox="-10.5 -9.45 21 18.9" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-4 mb-3 text-link dark:text-link-dark w-24 lg:w-28 self-center text-sm mr-0 flex origin-center transition-all ease-in-out"><circle cx="0" cy="0" r="2" fill="currentColor"></circle><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="10" ry="4.5"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(60)"></ellipse><ellipse rx="10" ry="4.5" transform="rotate(120)"></ellipse></g></svg>
+            <Flex h="20" flexDirection={"column"} alignItems="center" mx="8" mb={75} mt={2}
+                  justifyContent="space-between">
+                <svg width="100%" height="100%" viewBox="-10.5 -9.45 21 18.9" fill="none"
+                     xmlns="http://www.w3.org/2000/svg"
+                     className="mt-4 mb-3 text-link dark:text-link-dark w-24 lg:w-28 self-center text-sm mr-0 flex origin-center transition-all ease-in-out">
+                    <circle cx="0" cy="0" r="2" fill="currentColor"></circle>
+                    <g stroke="currentColor" strokeWidth="1" fill="none">
+                        <ellipse rx="10" ry="4.5"></ellipse>
+                        <ellipse rx="10" ry="4.5" transform="rotate(60)"></ellipse>
+                        <ellipse rx="10" ry="4.5" transform="rotate(120)"></ellipse>
+                    </g>
+                </svg>
                 <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
                     Dashboard
                 </Text>
                 <CloseButton display={{base: 'flex', md: 'none'}} onClick={onClose}/>
             </Flex>
-            {LinkItems.map((link) => (
-                <NavItem key={link.name} icon={link.icon}>
-                    {link.name}
-                </NavItem>
-            ))}
-        </Box>
-    )
-}
-
-const NavItem = ({icon, children, ...rest}) => {
-    return (
-        <Box
-            as="a"
-            href="#"
-            style={{textDecoration: 'none'}}
-            _focus={{boxShadow: 'none'}}>
             <Flex
-                align="center"
-                p="4"
-                mx="4"
-                borderRadius="lg"
-                role="group"
-                cursor="pointer"
-                _hover={{
-                    bg: 'cyan.400',
-                    color: 'white',
-                }}
-                {...rest}>
-                {icon && (
-                    <Icon
-                        mr="4"
-                        fontSize="16"
-                        _groupHover={{
-                            color: 'white',
-                        }}
-                        as={icon}
-                    />
-                )}
-                {children}
+                align={'left'}
+                direction='column'
+                m={5}
+
+
+            >
+
+
+                <Button
+                    variant={"ghost"}
+                    justifyContent={"left"}>
+                    <Icon as={FiHome}
+                          mr={"10px"}/>
+                    Home
+                </Button>
+
+
+                <CreateCustomerDrawer>
+
+                </CreateCustomerDrawer>
+
             </Flex>
         </Box>
     )
@@ -163,12 +154,13 @@ const MobileNav = ({onOpen, ...rest}) => {
     )
 }
 
-const SidebarWithHeader = ({children}) => {
+const SidebarWithHeader = ({fetchCustomers, children}) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
 
     return (
         <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
-            <SidebarContent onClose={() => onClose} display={{base: 'none', md: 'block'}}/>
+            <SidebarContent fetchCustomers={fetchCustomers} onClose={() => onClose}
+                            display={{base: 'none', md: 'block'}}/>
             <Drawer
                 isOpen={isOpen}
                 placement="left"
