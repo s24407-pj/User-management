@@ -1,7 +1,8 @@
 'use client'
 
-import {Avatar, Box, Center, Flex, Heading, Image, Stack, Tag, Text, useColorModeValue,} from '@chakra-ui/react'
+import {Avatar, Box, Button, Center, Flex, Heading, Image, Stack, Tag, Text, useColorModeValue,} from '@chakra-ui/react'
 import DeleteCustomerButton from "./DeleteCustomerButton.jsx";
+import UpdateCustomerDrawer from "./UpdateCustomerDrawer.jsx";
 
 // eslint-disable-next-line react/prop-types
 export default function CardWithImage({id, name, email, age, gender, index, fetchCustomers}) {
@@ -45,9 +46,27 @@ export default function CardWithImage({id, name, email, age, gender, index, fetc
                         <Text color={'gray.500'}>{email}</Text>
                         <Text color={'gray.500'}>Age {age} | {gender}</Text>
                     </Stack>
-
                 </Box>
-                <DeleteCustomerButton id={id} name={name} fetchCustomers={fetchCustomers}/>
+                <Box>
+                    <Stack
+                        align={'center'}
+                        direction='row'
+                        m={5}
+                        justifyContent={'space-evenly'}
+                    >
+                        <DeleteCustomerButton
+                            id={id}
+                            name={name}
+                            fetchCustomers={fetchCustomers}
+                        />
+                        <UpdateCustomerDrawer
+                            initialValues={{name, email, age, gender}}
+                            fetchCustomers={fetchCustomers}
+                            customerId={id}
+                        />
+                    </Stack>
+                </Box>
+
             </Box>
         </Center>
     )
