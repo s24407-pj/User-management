@@ -17,7 +17,7 @@ export default function DeleteCustomerButton({id, name, fetchCustomers}) {
     return (
         <>
             <Button colorScheme='red' onClick={onOpen}>
-                Delete Customer
+                Delete
             </Button>
 
             <AlertDialog
