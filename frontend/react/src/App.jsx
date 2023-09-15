@@ -74,5 +74,4 @@ const App = () => {
         </SidebarWithHeader>
     )
 }
-
 export default App;
