@@ -1,0 +1,94 @@
+name: CD - Deploy Frontend React
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - frontend/react/**
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend/react
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Slack commit message and sha
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'C05LHBRHGRE'
+          slack-message: ":github: https://github.com/s24407-pj/Fullstack_course_by_AmigosCode${{github.sha}} - ${{github.event.head_commit.message}}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Docker Login
+        uses: docker/login-action@v2.2.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set build number
+        id: build-number
+        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
+
+      - name: Update slack message
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'C05LHBRHGRE'
+          update-ts: ${{ steps.slack.outputs.ts }}
+          slack-message: ":github: https://github.com/s24407-pj/Fullstack_course_by_AmigosCode${{github.sha}} - ${{github.event.head_commit.message}}\n
+          GitHub build ${{steps.build-number.outputs.BUILD_NUMBER}} result: running"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Docker build and push
+        run: |
+          chmod +x ../../.ci/build-publish.sh
+          USERNAME=miwoj \
+          REPO=trainingproject-react \
+          TAG=${{ steps.build-number.outputs.BUILD_NUMBER}} \
+          ../../.ci/build-publish.sh . \
+          --build-arg api_base_url=http://trainingproject-env.eba-dxvczvjs.eu-central-1.elasticbeanstalk.com
+
+      - name: Update Dockerrun.aws.json api image tag with new build number
+        run: |
+          echo "Dockerrun.aws.json before updating tag"
+          cat ../../Dockerrun.aws.json
+          sed -i -E 's_(miwoj/trainingproject-react:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../../Dockerrun.aws.json
+          echo "Dockerrun.aws.json after updating tag"
+          cat ../../Dockerrun.aws.json
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ vars.EB_APPLICATION_NAME }}
+          environment_name: ${{ vars.EB_ENVIRONMENT_NAME }}
+          version_label: ${{steps.build-number.outputs.BUILD_NUMBER}}
+          version_description: ${{github.SHA}}
+          region: ${{ vars.EB_REGION }}
+          deployment_package: Dockerrun.aws.json
+          wait_for_environment_recovery: 60
+
+      - name: Commit and push Dockerrun.aws.json
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit -m "Update Dockerrun.aws.json docker image with new tag ${{steps.build-number.outputsBUILD_NUMBER}}"
+          git push
+
+      - uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'C05LHBRHGRE'
+          update-ts: ${{ steps.slack.outputs.ts }}
+          slack-message: ":github: https://github.com/s24407-pj/Fullstack_course_by_AmigosCode${{github.sha}} - ${{github.event.head_commit.message}}\n
+          GitHub build ${{steps.build-number.outputs.BUILD_NUMBER}} result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
