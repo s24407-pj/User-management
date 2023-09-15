@@ -90,6 +90,7 @@ jobs:
           version_description: ${{github.SHA}}
           region: ${{ vars.EB_REGION }}
           deployment_package: Dockerrun.aws.json
+          wait_for_environment_recovery: 60
 
       - name: Commit and push Dockerrun.aws.json
         run: |
