@@ -58,7 +58,6 @@ const App = () => {
         )
     }
 
-
     return (
         <SidebarWithHeader fetchCustomers={fetchCustomers}>
             <Wrap spacing='30px' justify='center'>
