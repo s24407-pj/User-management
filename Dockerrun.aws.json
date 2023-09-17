@@ -22,7 +22,7 @@
     },
     {
       "name": "trainingproject-react",
-      "image": "miwoj/trainingproject-react:15.09.2023.13.35.36",
+      "image": "miwoj/trainingproject-react:15.09.2023.16.45.38",
       "essential": true,
       "memory": 256,
       "portMappings": [
