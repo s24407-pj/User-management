@@ -83,8 +83,10 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                                 err.response.data.message
                             );
                     }).finally(()=>{
-                        setSubmitting(false);
-
+                            fetchCustomers();
+                            setSubmitting(false);
+                            onClose();
+                        
                     })
                 }}
             >
