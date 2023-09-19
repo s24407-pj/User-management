@@ -76,7 +76,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                                 "Customer saved",
                                 `${customer.name} was successfully saved`
                             );
-                            fetchCustomers();
+
                         }).catch(err =>{
                             errorNotification(
                                 err.code,
@@ -84,7 +84,7 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                             );
                     }).finally(()=>{
                         setSubmitting(false);
-
+                        fetchCustomers();
                     })
                 }}
             >
