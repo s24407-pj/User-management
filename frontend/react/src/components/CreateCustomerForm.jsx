@@ -76,15 +76,17 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                                 "Customer saved",
                                 `${customer.name} was successfully saved`
                             );
-
+                            fetchCustomers();
                         }).catch(err =>{
                             errorNotification(
                                 err.code,
                                 err.response.data.message
                             );
                     }).finally(()=>{
-                        setSubmitting(false);
-                        fetchCustomers();
+                            fetchCustomers();
+                            setSubmitting(false);
+                            onClose();
+                        
                     })
                 }}
             >
