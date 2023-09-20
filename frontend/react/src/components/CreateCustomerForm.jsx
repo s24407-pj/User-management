@@ -40,7 +40,7 @@ const MySelect = ({label, ...props}) => {
 };
 
 // And now we can use these
-const CreateCustomerForm = ({fetchCustomers}) => {
+export default function CreateCustomerForm({fetchCustomers, onClose}) {
     return (
         <>
             <Formik
@@ -71,26 +71,25 @@ const CreateCustomerForm = ({fetchCustomers}) => {
                 onSubmit={(customer, {setSubmitting}) => {
                     setSubmitting(true);
                     saveCustomer(customer)
-                        .then(() =>{
+                        .then(() => {
                             successNotification(
                                 "Customer saved",
                                 `${customer.name} was successfully saved`
                             );
-                            fetchCustomers();
-                        }).catch(err =>{
-                            errorNotification(
-                                err.code,
-                                err.response.data.message
-                            );
-                    }).finally(()=>{
-                            fetchCustomers();
-                            setSubmitting(false);
-                            onClose();
-                        
+
+                        }).catch(err => {
+                        errorNotification(
+                            err.code,
+                            err.response.data.message
+                        );
+                    }).finally(() => {
+                        fetchCustomers();
+                        setSubmitting(false);
+                        onClose();
                     })
                 }}
             >
-                {({isValid, isSubmitting,dirty}) => (
+                {({isValid, isSubmitting, dirty}) => (
                     <Form>
                         <Stack spacing={"24px"}>
                             <MyTextInput
@@ -127,6 +126,4 @@ const CreateCustomerForm = ({fetchCustomers}) => {
             </Formik>
         </>
     );
-};
-
-export default CreateCustomerForm;
+}
