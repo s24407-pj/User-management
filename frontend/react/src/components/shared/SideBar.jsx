@@ -57,11 +57,7 @@ const SidebarContent = ({fetchCustomers, onClose, onOpen, ...rest}) => {
             <Flex
                 align={'left'}
                 direction='column'
-                m={5}
-
-
-            >
-
+                m={5}>
 
                 <Button
                     variant={"ghost"}
@@ -71,11 +67,7 @@ const SidebarContent = ({fetchCustomers, onClose, onOpen, ...rest}) => {
                     Home
                 </Button>
 
-
-                <CreateCustomerDrawer>
-
-                </CreateCustomerDrawer>
-
+                <CreateCustomerDrawer fetchCustomers={fetchCustomers}/>
             </Flex>
         </Box>
     )
@@ -98,17 +90,7 @@ const MobileNav = ({onOpen, ...rest}) => {
                 onClick={onOpen}
                 variant="outline"
                 aria-label="open menu"
-                icon={<FiMenu/>}
-            />
-
-            <Text
-                display={{base: 'flex', md: 'none'}}
-                fontSize="2xl"
-                fontFamily="monospace"
-                fontWeight="bold">
-                Logo
-            </Text>
-
+                icon={<FiMenu/>}/>
             <HStack spacing={{base: '0', md: '6'}}>
                 <ToggleTheme/>
                 <IconButton size="lg" variant="ghost" aria-label="open menu" icon={<FiBell/>}/>
@@ -168,7 +150,7 @@ const SidebarWithHeader = ({fetchCustomers, children}) => {
                 onOverlayClick={onClose}
                 size="full">
                 <DrawerContent>
-                    <SidebarContent onClose={onClose}/>
+                    <SidebarContent onClose={onClose} /*fetchCustomers={fetchCustomers}*//>
                 </DrawerContent>
             </Drawer>
             {/* mobilenav */}
