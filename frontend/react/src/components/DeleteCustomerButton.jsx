@@ -48,15 +48,14 @@ export default function DeleteCustomerButton({id, name, fetchCustomers}) {
                                             "Customer deleted",
                                             `${name} was successfully deleted`
                                         );
-                                        fetchCustomers();
                                     }).catch(err => {
                                     errorNotification(
                                         err.code,
                                         err.response.data.message
                                     );
                                 }).finally(() => {
+                                    fetchCustomers();
                                     onClose();
-
                                 })
                             }} ml={3}>
                                 Delete
