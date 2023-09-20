@@ -11,10 +11,9 @@ import {
 } from "@chakra-ui/react";
 import UpdateCustomerForm from "./UpdateCustomerForm.jsx";
 
-const AddIcon = () => "+";
 const CloseIcon = () => "X";
 
-const UpdateCustomerDrawer = ({fetchCustomers, initialValues, customerId}) => {
+const UpdateCustomerDrawer = ({initialValues, fetchCustomers, customerId}) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
     return <>
         <Button
@@ -34,6 +33,7 @@ const UpdateCustomerDrawer = ({fetchCustomers, initialValues, customerId}) => {
                         fetchCustomers={fetchCustomers}
                         initialValues={initialValues}
                         customerId={customerId}
+                        onClose={onClose}
                     />
                 </DrawerBody>
 
