@@ -6,7 +6,8 @@ import {
     DrawerContent,
     DrawerFooter,
     DrawerHeader,
-    DrawerOverlay, Icon,
+    DrawerOverlay,
+    Icon,
     useDisclosure
 } from "@chakra-ui/react";
 
@@ -16,7 +17,7 @@ import {FiUserPlus} from "react-icons/fi";
 
 const CloseIcon = () => "X";
 
-const CreateCustomerDrawer = (fetchCustomers) => {
+const CreateCustomerDrawer = ({fetchCustomers}) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
 
 
@@ -40,9 +41,8 @@ const CreateCustomerDrawer = (fetchCustomers) => {
                     <DrawerCloseButton/>
                     <DrawerHeader>Create new customer</DrawerHeader>
                     <DrawerBody>
-                        <CreateCustomerForm fetchCustomers={fetchCustomers}/>
+                        <CreateCustomerForm fetchCustomers={fetchCustomers} onClose={onClose}/>
                     </DrawerBody>
-
                     <DrawerFooter>
                         <Button
                             leftIcon={<CloseIcon/>}
