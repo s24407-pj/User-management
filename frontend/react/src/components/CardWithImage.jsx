@@ -36,7 +36,6 @@ export default function CardWithImage({id, name, email, age, gender, index, fetc
                         }}
                     />
                 </Flex>
-
                 <Box p={6}>
                     <Stack spacing={0} align={'center'} mb={5}>
                         <Tag borderRadius={"full"}>{++index}</Tag>
@@ -54,15 +53,15 @@ export default function CardWithImage({id, name, email, age, gender, index, fetc
                         m={5}
                         justifyContent={'space-evenly'}
                     >
-                        <DeleteCustomerButton
-                            id={id}
-                            name={name}
-                            fetchCustomers={fetchCustomers}
-                        />
                         <UpdateCustomerDrawer
                             initialValues={{name, email, age, gender}}
                             fetchCustomers={fetchCustomers}
                             customerId={id}
+                        />
+                        <DeleteCustomerButton
+                            id={id}
+                            name={name}
+                            fetchCustomers={fetchCustomers}
                         />
                     </Stack>
                 </Box>
