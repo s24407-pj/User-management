@@ -57,9 +57,7 @@ class CustomerServiceTest {
     void willThrowWhenGetCustomerReturnEmptyOptional() {
         //Given
         long id = 1;
-        Customer customer = new Customer(
-                id, "Alex", "alex@mail.com", "password", Gender.MALE, 15
-        );
+
         when(customerDaoMock.selectCustomerById(id)).thenReturn(Optional.empty());
         //When
         //Then
@@ -101,7 +99,7 @@ class CustomerServiceTest {
         String email = "asdasd@dsad";
 
         when(customerDaoMock.existsCustomerWithEmail(email)).thenReturn(true);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 15,Gender.MALE);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email,"password", 15,Gender.MALE);
 
         //When
         assertThatThrownBy(() -> underTest.addCustomer(request))
