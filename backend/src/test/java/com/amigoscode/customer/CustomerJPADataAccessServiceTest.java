@@ -33,6 +33,7 @@ class CustomerJPADataAccessServiceTest {
         Customer customer = new Customer(
                 "Michal",
                 "mail@mail.com",
+                "password",
                 20,
                 Gender.MALE
         );
@@ -78,6 +79,7 @@ class CustomerJPADataAccessServiceTest {
         Customer customer = new Customer(
                 "Michal",
                 "mail@mail.com",
+                "password",
                 20,
                 Gender.MALE
         );

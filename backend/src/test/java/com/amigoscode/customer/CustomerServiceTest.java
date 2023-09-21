@@ -8,23 +8,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
     @Mock
     private CustomerDao customerDaoMock;
+    @Mock
+    private PasswordEncoder passwordEncoder;
     private CustomerService underTest;
 
     @BeforeEach
     void setUp() {
-        underTest = new CustomerService(customerDaoMock);
+        underTest = new CustomerService(customerDaoMock, passwordEncoder);
     }
 
 
@@ -41,7 +43,7 @@ class CustomerServiceTest {
         //Given
         long id = 1;
         Customer customer = new Customer(
-                id, "Alex", "alex@mail.com", 15, Gender.FEMALE
+                id, "Alex", "alex@mail.com", "password", Gender.FEMALE, 15
         );
         when(customerDaoMock.selectCustomerById(id)).thenReturn(Optional.of(customer));
         //When
@@ -55,7 +57,7 @@ class CustomerServiceTest {
         //Given
         long id = 1;
         Customer customer = new Customer(
-                id, "Alex", "alex@mail.com", 15, Gender.MALE
+                id, "Alex", "alex@mail.com", "password", Gender.MALE, 15
         );
         when(customerDaoMock.selectCustomerById(id)).thenReturn(Optional.empty());
         //When
@@ -71,8 +73,11 @@ class CustomerServiceTest {
         String email = "asdasd@dsad";
 
         when(customerDaoMock.existsCustomerWithEmail(email)).thenReturn(false);
-        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, 15,Gender.MALE);
+        CustomerRegistrationRequest request = new CustomerRegistrationRequest("Alex", email, "password", 15, Gender.MALE);
 
+        String passwordHash = "srfdghedstg3425!";
+
+        when(passwordEncoder.encode(request.password())).thenReturn(passwordHash);
         //When
         underTest.addCustomer(request);
 

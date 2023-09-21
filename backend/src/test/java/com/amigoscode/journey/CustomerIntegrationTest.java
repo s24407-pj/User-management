@@ -31,7 +31,7 @@ public class CustomerIntegrationTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 faker.name().fullName(),
                 faker.pokemon().name() + UUID.randomUUID() + "@mail.com",
-                faker.number().numberBetween(18, 99),
+                "password", faker.number().numberBetween(18, 99),
                 Gender.MALE
         );
         //send a post request
@@ -60,7 +60,7 @@ public class CustomerIntegrationTest {
         Customer expected = new Customer(
                 request.name(),
                 request.email(),
-                request.age(),
+                "password", request.age(),
                 request.gender()
         );
         assertThat(allCustomers)
@@ -95,6 +95,7 @@ public class CustomerIntegrationTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 faker.name().fullName(),
                 faker.pokemon().name() + UUID.randomUUID() + "@mail.com",
+                "password",
                 faker.number().numberBetween(18, 99),
                 Gender.MALE
         );
@@ -151,6 +152,7 @@ public class CustomerIntegrationTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 faker.name().fullName(),
                 faker.pokemon().name() + UUID.randomUUID() + "@mail.com",
+                "password",
                 faker.number().numberBetween(18, 99),
                 Gender.MALE
         );
@@ -187,6 +189,7 @@ public class CustomerIntegrationTest {
         Customer update = new Customer(
                 faker.name().fullName(),
                 request.email(),
+                "password",
                 request.age()+1,
                 request.gender()
         );

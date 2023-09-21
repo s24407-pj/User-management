@@ -19,7 +19,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """
-                SELECT id, name, email, age, gender 
+                SELECT id, name, email,password, age, gender 
                 FROM customer
                 """;
         return jdbcTemplate.query(sql, customerRowMapper);
@@ -28,7 +28,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public Optional<Customer> selectCustomerById(Long id) {
         var sql = """
-                SELECT id, name, email, age, gender  
+                SELECT id, name, email, password, age, gender  
                 FROM customer 
                 WHERE id = ?
                 """;
@@ -40,13 +40,14 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer(name, email, age, gender) 
-                VALUES(?,?,?,?)
+                INSERT INTO customer(name, email,password, age, gender) 
+                VALUES(?,?,?,?,?)
                 """;
         jdbcTemplate.update(
                 sql,
                 customer.getName(),
                 customer.getEmail(),
+                customer.getPassword(),
                 customer.getAge(),
                 customer.getGender().name());
     }
@@ -86,25 +87,12 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void updateCustomer(Long customerId, Customer customer) {
         var sql = """
-                UPDATE customer 
-                SET name = ? , email = ? , age = ?, gender = ?  
-                WHERE id = ?
+                SELECT id, name, email, password, age, gender  
+                FROM customer 
+                WHERE email = ?
                 """;
-        if (existsCustomerWithId(customerId) &&
-                customer.getEmail() != null &&
-                !customer.getEmail().isBlank() &&
-                customer.getAge() != null &&
-                customer.getAge() > 0 &&
-                customer.getName() != null &&
-                !customer.getName().isBlank() &&
-                customer.getGender() != null) {
-
-            jdbcTemplate.update(sql,
-                    customer.getName(),
-                    customer.getEmail(),
-                    customer.getAge(),
-                    customer.getGender().name(),
-                    customerId);
-        }
+        return jdbcTemplate.query(sql, customerRowMapper, email)
+                .stream()
+                .findFirst();
     }
 }
