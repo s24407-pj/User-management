@@ -1,5 +1,8 @@
 package com.amigoscode.customer;
 
+import com.amigoscode.jwt.JWTUtil;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,8 +51,8 @@ public class CustomerRestController {
     @PutMapping("{customerId}")
     public void updateCustomer(
             @PathVariable("customerId") Long customerId,
-            @RequestBody Customer customer) {
-        customerService.updateCustomer(customerId, customer);
+            @RequestBody CustomerUpdateRequest update) {
+        customerService.updateCustomer(customerId, update);
     }
 
 }
