@@ -28,31 +28,16 @@ public class SecurityFilterChainConfig {
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    /*@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST,"/api/v1/customers")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }*/
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(withDefaults())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(HttpMethod.POST, "/api/v1/customers").permitAll()
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/v1/customers",
+                                "/api/v1/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session

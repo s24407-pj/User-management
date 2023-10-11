@@ -54,5 +54,4 @@ public class CustomerRestController {
             @RequestBody CustomerUpdateRequest update) {
         customerService.updateCustomer(customerId, update);
     }
-
 }

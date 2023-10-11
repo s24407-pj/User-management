@@ -25,6 +25,7 @@ public class JWTUtil {
         return issueToken(subject, Map.of("scopes", scopes));
     }
 
+
     public String issueToken(String subject, List<String> scopes) {
         return issueToken(subject, Map.of("scopes", scopes));
     }
