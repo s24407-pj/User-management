@@ -10,9 +10,13 @@ public class CustomerJPADataAccessService implements CustomerDao {
     private final CustomerRepository customerRepository;
 
     @Override
-    public void updateCustomer(Long customerId, Customer customer) {
-        customerRepository.existsById(customerId);
-        customerRepository.save(customer);
+    public void updateCustomer(Customer update) {
+        customerRepository.save(update);
+    }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        return customerRepository.findCustomerByEmail(email);
     }
 
     @Override

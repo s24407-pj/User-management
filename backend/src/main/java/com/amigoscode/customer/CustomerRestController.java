@@ -1,5 +1,8 @@
 package com.amigoscode.customer;
 
+import com.amigoscode.jwt.JWTUtil;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,27 +12,33 @@ import java.util.List;
 public class CustomerRestController {
 
     private final CustomerService customerService;
+    private final JWTUtil jwtUtil;
 
-    public CustomerRestController(CustomerService customerService) {
+    public CustomerRestController(CustomerService customerService, JWTUtil jwtUtil) {
         this.customerService = customerService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping
-    public List<Customer> getCustomers() {
+    public List<CustomerDTO> getCustomers() {
         return customerService.getAllCustomers();
     }
 
     @GetMapping("{customerId}")
-    public Customer getCustomer(
+    public CustomerDTO getCustomer(
             @PathVariable("customerId") Long customerId) {
 
         return customerService.getCustomer(customerId);
     }
 
     @PostMapping
-    public void registerCustomer(
+    public ResponseEntity<?> registerCustomer(
             @RequestBody CustomerRegistrationRequest request) {
         customerService.addCustomer(request);
+        String jwtToken = jwtUtil.issueToken(request.email(), "ROLE_USER");
+        return ResponseEntity.ok()
+                .header(HttpHeaders.AUTHORIZATION, jwtToken)
+                .build();
     }
 
     @DeleteMapping("{customerId}")
@@ -42,8 +51,7 @@ public class CustomerRestController {
     @PutMapping("{customerId}")
     public void updateCustomer(
             @PathVariable("customerId") Long customerId,
-            @RequestBody Customer customer) {
-        customerService.updateCustomer(customerId, customer);
+            @RequestBody CustomerUpdateRequest update) {
+        customerService.updateCustomer(customerId, update);
     }
-
 }

@@ -19,7 +19,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public List<Customer> selectAllCustomers() {
         var sql = """
-                SELECT id, name, email, age, gender 
+                SELECT id, name, email,password, age, gender 
                 FROM customer
                 """;
         return jdbcTemplate.query(sql, customerRowMapper);
@@ -28,7 +28,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public Optional<Customer> selectCustomerById(Long id) {
         var sql = """
-                SELECT id, name, email, age, gender  
+                SELECT id, name, email, password, age, gender  
                 FROM customer 
                 WHERE id = ?
                 """;
@@ -40,13 +40,14 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     @Override
     public void insertCustomer(Customer customer) {
         var sql = """
-                INSERT INTO customer(name, email, age, gender) 
-                VALUES(?,?,?,?)
+                INSERT INTO customer(name, email,password, age, gender) 
+                VALUES(?,?,?,?,?)
                 """;
         jdbcTemplate.update(
                 sql,
                 customer.getName(),
                 customer.getEmail(),
+                customer.getPassword(),
                 customer.getAge(),
                 customer.getGender().name());
     }
@@ -84,27 +85,44 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
     }
 
     @Override
-    public void updateCustomer(Long customerId, Customer customer) {
-        var sql = """
-                UPDATE customer 
-                SET name = ? , email = ? , age = ?, gender = ?  
-                WHERE id = ?
-                """;
-        if (existsCustomerWithId(customerId) &&
-                customer.getEmail() != null &&
-                !customer.getEmail().isBlank() &&
-                customer.getAge() != null &&
-                customer.getAge() > 0 &&
-                customer.getName() != null &&
-                !customer.getName().isBlank() &&
-                customer.getGender() != null) {
-
-            jdbcTemplate.update(sql,
-                    customer.getName(),
-                    customer.getEmail(),
-                    customer.getAge(),
-                    customer.getGender().name(),
-                    customerId);
+    public void updateCustomer(Customer update) {
+        if (update.getName() != null) {
+            String sql = "UPDATE customer SET name = ? WHERE id = ?";
+            int result = jdbcTemplate.update(
+                    sql,
+                    update.getName(),
+                    update.getId()
+            );
+            System.out.println("update customer name result = " + result);
         }
+        if (update.getAge() != null) {
+            String sql = "UPDATE customer SET age = ? WHERE id = ?";
+            int result = jdbcTemplate.update(
+                    sql,
+                    update.getAge(),
+                    update.getId()
+            );
+            System.out.println("update customer age result = " + result);
+        }
+        if (update.getEmail() != null) {
+            String sql = "UPDATE customer SET email = ? WHERE id = ?";
+            int result = jdbcTemplate.update(
+                    sql,
+                    update.getEmail(),
+                    update.getId());
+            System.out.println("update customer email result = " + result);
+        }
+    }
+
+    @Override
+    public Optional<Customer> selectUserByEmail(String email) {
+        var sql = """
+                SELECT id, name, email, password, age, gender  
+                FROM customer 
+                WHERE email = ?
+                """;
+        return jdbcTemplate.query(sql, customerRowMapper, email)
+                .stream()
+                .findFirst();
     }
 }

@@ -150,7 +150,7 @@ const SidebarWithHeader = ({fetchCustomers, children}) => {
                 onOverlayClick={onClose}
                 size="full">
                 <DrawerContent>
-                    <SidebarContent onClose={onClose} /*fetchCustomers={fetchCustomers}*//>
+                    <SidebarContent onClose={onClose} fetchCustomers={fetchCustomers}/>
                 </DrawerContent>
             </Drawer>
             {/* mobilenav */}

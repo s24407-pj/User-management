@@ -30,16 +30,17 @@ class CustomerJPADataAccessServiceTest {
     void updateCustomer() {
         //Given
         long id = 1;
-        Customer customer = new Customer(
+        Customer update = new Customer(
                 "Michal",
                 "mail@mail.com",
+                "password",
                 20,
                 Gender.MALE
         );
         //When
-        underTest.updateCustomer(id, customer);
+        underTest.updateCustomer(update);
         //Then
-        verify(customerRepository).save(customer);
+        verify(customerRepository).save(update);
     }
 
     @Test
@@ -78,6 +79,7 @@ class CustomerJPADataAccessServiceTest {
         Customer customer = new Customer(
                 "Michal",
                 "mail@mail.com",
+                "password",
                 20,
                 Gender.MALE
         );

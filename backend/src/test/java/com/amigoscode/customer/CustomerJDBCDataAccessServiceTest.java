@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,6 +29,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID(),
+                "password",
                 20,
                 Gender.MALE
         );
@@ -48,6 +50,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
+                "password",
                 20,
                 Gender.MALE
         );
@@ -90,8 +93,9 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-                ,Gender.MALE
+                "password",
+                20,
+                Gender.MALE
         );
 
 
@@ -120,6 +124,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
+                "password",
                 20,
                 Gender.MALE
         );
@@ -151,6 +156,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
+                "password",
                 20,
                 Gender.MALE
         );
@@ -181,6 +187,7 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
+                "password",
                 20,
                 Gender.MALE
         );
@@ -202,40 +209,197 @@ class CustomerJDBCDataAccessServiceTest extends AbstractTestContainers {
     }
 
     @Test
-    void updateCustomer() {
-        //Given
-        int age = 20;
+    void updateCustomerName() {
+        // Given
         String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                age,
-                Gender.MALE
-        );
+                "password", 20,
+                Gender.MALE);
+
         underTest.insertCustomer(customer);
+
         long id = underTest.selectAllCustomers()
                 .stream()
                 .filter(c -> c.getEmail().equals(email))
                 .map(Customer::getId)
                 .findFirst()
                 .orElseThrow();
-        age++;
-        Customer update = new Customer(
+
+        var newName = "foo";
+
+        // When age is name
+        Customer update = new Customer();
+        update.setId(id);
+        update.setName(newName);
+
+        underTest.updateCustomer(update);
+
+        // Then
+        Optional<Customer> actual = underTest.selectCustomerById(id);
+
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getId()).isEqualTo(id);
+            assertThat(c.getName()).isEqualTo(newName); // change
+            assertThat(c.getEmail()).isEqualTo(customer.getEmail());
+            assertThat(c.getAge()).isEqualTo(customer.getAge());
+        });
+    }
+
+    @Test
+    void updateCustomerEmail() {
+        // Given
+        String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                age,
-                Gender.MALE
-        );
+                "password", 20,
+                Gender.MALE);
 
-        //When
-        underTest.updateCustomer(id, update);
+        underTest.insertCustomer(customer);
 
-        //Then
-        var updated = underTest.selectCustomerById(id);
-        assertThat(updated).isPresent().hasValueSatisfying(c -> {
+        long id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+
+        var newEmail = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        ;
+
+        // When email is changed
+        Customer update = new Customer();
+        update.setId(id);
+        update.setEmail(newEmail);
+
+        underTest.updateCustomer(update);
+
+        // Then
+        Optional<Customer> actual = underTest.selectCustomerById(id);
+
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getId()).isEqualTo(id);
+            assertThat(c.getEmail()).isEqualTo(newEmail); // change
+            assertThat(c.getName()).isEqualTo(customer.getName());
+            assertThat(c.getAge()).isEqualTo(customer.getAge());
+        });
+    }
+
+    @Test
+    void updateCustomerAge() {
+        // Given
+        String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        Customer customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password", 20,
+                Gender.MALE);
+
+        underTest.insertCustomer(customer);
+
+        long id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+
+        var newAge = 100;
+
+        // When age is changed
+        Customer update = new Customer();
+        update.setId(id);
+        update.setAge(newAge);
+
+        underTest.updateCustomer(update);
+
+        // Then
+        Optional<Customer> actual = underTest.selectCustomerById(id);
+
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getId()).isEqualTo(id);
+            assertThat(c.getAge()).isEqualTo(newAge); // change
+            assertThat(c.getName()).isEqualTo(customer.getName());
             assertThat(c.getEmail()).isEqualTo(customer.getEmail());
-            assertThat(c.getName()).isNotEqualTo(customer.getName());
-            assertThat(c.getAge()).isGreaterThan(customer.getAge());
+        });
+    }
+
+    @Test
+    void willUpdateAllPropertiesCustomer() {
+        // Given
+        String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        Customer customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password", 20,
+                Gender.MALE);
+
+        underTest.insertCustomer(customer);
+
+        long id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+
+        // When update with new name, age and email
+        Customer update = new Customer();
+        update.setId(id);
+        update.setName("foo");
+        String newEmail = UUID.randomUUID().toString();
+        update.setEmail(newEmail);
+        update.setAge(22);
+
+        underTest.updateCustomer(update);
+
+        // Then
+        Optional<Customer> actual = underTest.selectCustomerById(id);
+
+        assertThat(actual).isPresent().hasValueSatisfying(updated -> {
+            assertThat(updated.getId()).isEqualTo(id);
+            assertThat(updated.getGender()).isEqualTo(Gender.MALE);
+            assertThat(updated.getName()).isEqualTo("foo");
+            assertThat(updated.getEmail()).isEqualTo(newEmail);
+            assertThat(updated.getAge()).isEqualTo(22);
+        });
+    }
+
+    @Test
+    void willNotUpdateWhenNothingToUpdate() {
+        // Given
+        String email = FAKER.internet().safeEmailAddress() + "-" + UUID.randomUUID();
+        Customer customer = new Customer(
+                FAKER.name().fullName(),
+                email,
+                "password", 20,
+                Gender.MALE);
+
+        underTest.insertCustomer(customer);
+
+        long id = underTest.selectAllCustomers()
+                .stream()
+                .filter(c -> c.getEmail().equals(email))
+                .map(Customer::getId)
+                .findFirst()
+                .orElseThrow();
+
+        // When update without no changes
+        Customer update = new Customer();
+        update.setId(id);
+
+        underTest.updateCustomer(update);
+
+        // Then
+        Optional<Customer> actual = underTest.selectCustomerById(id);
+
+        assertThat(actual).isPresent().hasValueSatisfying(c -> {
+            assertThat(c.getId()).isEqualTo(id);
+            assertThat(c.getAge()).isEqualTo(customer.getAge());
+            assertThat(c.getName()).isEqualTo(customer.getName());
+            assertThat(c.getEmail()).isEqualTo(customer.getEmail());
         });
     }
 }
