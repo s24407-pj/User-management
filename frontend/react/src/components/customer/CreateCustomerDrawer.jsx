@@ -14,12 +14,10 @@ import {
 import CreateCustomerForm from "./CreateCustomerForm.jsx";
 import {FiUserPlus} from "react-icons/fi";
 
-
 const CloseIcon = () => "X";
 
-const CreateCustomerDrawer = ({fetchCustomers}) => {
+const CreateCustomerDrawer = ({fetchCustomers, size, text, onSuccess}) => {
     const {isOpen, onOpen, onClose} = useDisclosure()
-
 
     return (
         <>
@@ -32,16 +30,16 @@ const CreateCustomerDrawer = ({fetchCustomers}) => {
                     as={FiUserPlus}
                     mr={"10px"}
                 />
-                Create user
+                {text}
             </Button>
 
-            <Drawer isOpen={isOpen} onClose={onClose} size={"xl"}>
+            <Drawer isOpen={isOpen} onClose={onClose} size={size}>
                 <DrawerOverlay/>
                 <DrawerContent>
                     <DrawerCloseButton/>
                     <DrawerHeader>Create new customer</DrawerHeader>
                     <DrawerBody>
-                        <CreateCustomerForm fetchCustomers={fetchCustomers} onClose={onClose}/>
+                        <CreateCustomerForm fetchCustomers={fetchCustomers} onClose={onClose} onSuccess={onSuccess}/>
                     </DrawerBody>
                     <DrawerFooter>
                         <Button

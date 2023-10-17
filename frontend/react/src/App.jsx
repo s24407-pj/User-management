@@ -2,7 +2,7 @@ import {Spinner, Text, Wrap, WrapItem} from '@chakra-ui/react'
 import SidebarWithHeader from "./components/shared/SideBar.jsx";
 import {useEffect, useState} from "react";
 import {getCustomers} from "./services/client.js";
-import CardWithImage from "./components/CardWithImage.jsx";
+import CardWithImage from "./components/customer/CardWithImage.jsx";
 import {errorNotification} from "./services/notification.js";
 
 const App = () => {

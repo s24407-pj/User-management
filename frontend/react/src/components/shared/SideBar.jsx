@@ -11,7 +11,6 @@ import {
     IconButton,
     Menu,
     MenuButton,
-    MenuDivider,
     MenuItem,
     MenuList,
     Text,
@@ -20,8 +19,9 @@ import {
     VStack,
 } from '@chakra-ui/react'
 import {FiBell, FiChevronDown, FiHome, FiMenu,} from 'react-icons/fi'
-import ToggleTheme from "../ToggleTheme.jsx";
-import CreateCustomerDrawer from "../CreateCustomerDrawer.jsx";
+import ToggleTheme from "./ToggleTheme.jsx";
+import CreateCustomerDrawer from "../customer/CreateCustomerDrawer.jsx";
+import {useAuth} from "../context/AuthContext.jsx";
 
 
 const SidebarContent = ({fetchCustomers, onClose, onOpen, ...rest}) => {
@@ -67,13 +67,14 @@ const SidebarContent = ({fetchCustomers, onClose, onOpen, ...rest}) => {
                     Home
                 </Button>
 
-                <CreateCustomerDrawer fetchCustomers={fetchCustomers}/>
+                <CreateCustomerDrawer fetchCustomers={fetchCustomers} size={"xl"} text={"Create user"}/>
             </Flex>
         </Box>
     )
 }
 
 const MobileNav = ({onOpen, ...rest}) => {
+    const {logout, customer} = useAuth();
     return (
         <Flex
             ml={{base: 0, md: 60}}
@@ -109,9 +110,9 @@ const MobileNav = ({onOpen, ...rest}) => {
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2">
-                                    <Text fontSize="sm">Justina Clark</Text>
+                                    <Text fontSize="sm">{customer?.username}</Text>
                                     <Text fontSize="xs" color="gray.600">
-                                        Admin
+                                        {customer?.roles[0]}
                                     </Text>
                                 </VStack>
                                 <Box display={{base: 'none', md: 'flex'}}>
@@ -122,11 +123,11 @@ const MobileNav = ({onOpen, ...rest}) => {
                         <MenuList
                             bg={useColorModeValue('white', 'gray.900')}
                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                            <MenuItem>Profile</MenuItem>
+                            {/*<MenuItem>Profile</MenuItem>
                             <MenuItem>Settings</MenuItem>
                             <MenuItem>Billing</MenuItem>
-                            <MenuDivider/>
-                            <MenuItem>Sign out</MenuItem>
+                            <MenuDivider/>*/}
+                            <MenuItem onClick={logout}>Sign out</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>

@@ -1,5 +1,3 @@
-'use client'
-
 import {Avatar, Box, Center, Flex, Heading, Image, Stack, Tag, Text, useColorModeValue,} from '@chakra-ui/react'
 import DeleteCustomerButton from "./DeleteCustomerButton.jsx";
 import UpdateCustomerDrawer from "./UpdateCustomerDrawer.jsx";

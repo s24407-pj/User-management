@@ -1,8 +1,8 @@
 import {Form, Formik, useField} from 'formik';
 import * as Yup from 'yup';
 import {Alert, AlertIcon, Box, Button, FormLabel, Input, Select, Stack} from "@chakra-ui/react";
-import {saveCustomer} from "../services/client.js";
-import {errorNotification, successNotification} from "../services/notification.js";
+import {saveCustomer} from "../../services/client.js";
+import {errorNotification, successNotification} from "../../services/notification.js";
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -40,13 +40,14 @@ const MySelect = ({label, ...props}) => {
 };
 
 // And now we can use these
-export default function CreateCustomerForm({fetchCustomers, onClose}) {
+export default function CreateCustomerForm({fetchCustomers, onClose, onSuccess}) {
     return (
         <>
             <Formik
                 initialValues={{
                     name: '',
                     email: '',
+                    password: '',
                     age: 0,
                     gender: '',
                 }}
@@ -56,6 +57,10 @@ export default function CreateCustomerForm({fetchCustomers, onClose}) {
                         .required('Required'),
                     email: Yup.string()
                         .email('Invalid email address')
+                        .required('Required'),
+                    password: Yup.string()
+                        .min(8, 'Must be at least 8 characters')
+                        .max(25, 'Must be 25 characters or less')
                         .required('Required'),
                     age: Yup.number()
                         .min(16, 'Must be at least 16 years of age')
@@ -71,19 +76,20 @@ export default function CreateCustomerForm({fetchCustomers, onClose}) {
                 onSubmit={(customer, {setSubmitting}) => {
                     setSubmitting(true);
                     saveCustomer(customer)
-                        .then(() => {
+                        .then((res) => {
                             successNotification(
                                 "Customer saved",
                                 `${customer.name} was successfully saved`
                             );
-
+                            fetchCustomers && fetchCustomers();
+                            onSuccess(res.headers["authorization"])
                         }).catch(err => {
                         errorNotification(
                             err.code,
                             err.response.data.message
                         );
                     }).finally(() => {
-                        fetchCustomers();
+
                         setSubmitting(false);
                         onClose();
                     })
@@ -97,6 +103,12 @@ export default function CreateCustomerForm({fetchCustomers, onClose}) {
                                 name="name"
                                 type="text"
                                 placeholder="Jane"
+                            />
+
+                            <MyTextInput
+                                label="Passowrd"
+                                name="password"
+                                type="password"
                             />
 
                             <MyTextInput
