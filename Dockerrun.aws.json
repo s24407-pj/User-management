@@ -8,7 +8,7 @@
       "memory": 512,
       "portMappings": [
         {
-          "hostPort": 8080,
+          "hostPort": 80,
           "containerPort": 8080
         }
       ],
@@ -16,19 +16,7 @@
       "environment": [
         {
           "name": "SPRING_DATASOURCE_URL",
-          "value": "jdbc:postgresql://awseb-e-bymrzxi22f-stack-awsebrdsdatabase-mxj2aliyk7jh.cnbzqn6nyafz.eu-central-1.rds.amazonaws.com:5432/ebdb"
-        }
-      ]
-    },
-    {
-      "name": "trainingproject-react",
-      "image": "miwoj/trainingproject-react:17.10.2023.14.32.52",
-      "essential": true,
-      "memory": 256,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 5173
+          "value": "jdbc:postgresql://awseb-e-rsysvuutni-stack-awsebrdsdatabase-1osghieffnmy.cnbzqn6nyafz.eu-central-1.rds.amazonaws.com:5432/ebdb"
         }
       ]
     }
