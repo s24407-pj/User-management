@@ -6,6 +6,7 @@ import {errorNotification} from "../../services/notification.js";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import CreateCustomerDrawer from "../customer/CreateCustomerDrawer.jsx";
+import ToggleTheme from "../shared/ToggleTheme.jsx";
 
 const MyTextInput = ({label, ...props}) => {
     // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -89,7 +90,9 @@ const Login = () => {
     })
 
     return (
+
         <Stack minH={'100vh'} direction={{base: 'column', md: 'row'}}>
+            <ToggleTheme/>
             <Flex p={8} flex={1} align={'center'} justify={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Heading fontSize={'2xl'} mb={15}>Sign in to your account</Heading>
