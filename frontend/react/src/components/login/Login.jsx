@@ -71,7 +71,7 @@ const LoginForm = () => {
                         <Button
                             type={"submit"}
                             isDisabled={!isValid || isSubmitting}>
-                            Login
+                            Log in
                         </Button>
                     </Stack>
                 </Form>
