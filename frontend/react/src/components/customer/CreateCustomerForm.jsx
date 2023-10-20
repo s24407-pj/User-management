@@ -106,7 +106,7 @@ export default function CreateCustomerForm({fetchCustomers, onClose, onSuccess})
                             />
 
                             <MyTextInput
-                                label="Passowrd"
+                                label="Password"
                                 name="password"
                                 type="password"
                             />
