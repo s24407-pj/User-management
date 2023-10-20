@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "trainingproject-api",
-      "image": "miwoj/trainingproject-api:11.10.2023.15.05.09",
+      "image": "miwoj/trainingproject-api:17.10.2023.16.05.26",
       "essential": true,
       "memory": 512,
       "portMappings": [
@@ -16,7 +16,7 @@
       "environment": [
         {
           "name": "SPRING_DATASOURCE_URL",
-          "value": "jdbc:postgresql://awseb-e-rsysvuutni-stack-awsebrdsdatabase-1osghieffnmy.cnbzqn6nyafz.eu-central-1.rds.amazonaws.com:5432/ebdb"
+          "value": "jdbc:postgresql://awseb-e-6t9hb83ymk-stack-awsebrdsdatabase-ukbfdgzwhic7.cnbzqn6nyafz.eu-central-1.rds.amazonaws.com:5432/ebdb"
         }
       ]
     }
